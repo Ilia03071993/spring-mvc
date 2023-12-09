@@ -1,0 +1,31 @@
+#user-p{
+    font-size: 20px;
+    color: orange;
+    background-size: contain;
+}
+
+.table {
+	width: 100%;
+	margin-bottom: 20px;
+	border: 1px solid #dddddd;
+	border-collapse: collapse;
+}
+.table th {
+	font-weight: bold; /*устанавливает начертание шрифта*/
+	padding: 5px; /*внутренние отступы/поля со всех сторон элемента*/
+	background: green; /* устанавливает сразу все свойства стиля фона, такие как цвет, изображение, источник и размер, или метод повтора */
+	border: 1px solid #dddddd;
+
+}
+.table td {
+	border: 1px solid #dddddd;
+	padding: 5px;
+}
+
+.span-tag{
+
+}
+
+span{
+
+}
