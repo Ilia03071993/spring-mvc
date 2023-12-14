@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form action="/person" method="post" th:object="${person}">
+        <label>Name:
+        <input type="text" placeholder="name" th:field="*{name}" required>
+        </label>
+        <br>
+        <label>Gender:
+            <br>
+            <input type="radio" name="gender" value="male" th:field="*{gender}" required> Male<br>
+            <input type="radio" name="gender" value="female" th:field="*{gender}" required> Female<br>
+        </label>
+        <label> Age:
+            <input type="text" placeholder="age" th:field="*{age}" required>
+        </label>
+        <br>
+        <button type="submit">Create person</button>
+    </form>
+</body>
+</html>
