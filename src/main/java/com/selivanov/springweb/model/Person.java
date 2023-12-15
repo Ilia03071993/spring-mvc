@@ -1,5 +1,7 @@
 package com.selivanov.springweb.model;
 
+import java.util.Objects;
+
 public class Person {
     private String name;
     private String gender;
@@ -35,4 +37,19 @@ public class Person {
     public void setAge(Integer age) {
         this.age = age;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return Objects.equals(name, person.name) && Objects.equals(gender, person.gender) && Objects.equals(age, person.age);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, gender, age);
+    }
+
+
 }
