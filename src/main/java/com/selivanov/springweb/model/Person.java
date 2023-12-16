@@ -50,6 +50,4 @@ public class Person {
     public int hashCode() {
         return Objects.hash(name, gender, age);
     }
-
-
 }
