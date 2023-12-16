@@ -53,9 +53,9 @@ public class PersonController {
     }
 
     @GetMapping("/person")
-    public String showPerson(@RequestParam(required = false) Integer limit, // defaultValue = "5",
-                             @RequestParam(required = false) String sortby, // defaultValue = "age"
-                             @RequestParam(required = false) String sortorder, // defaultValue = "asc"
+    public String showPerson(@RequestParam(required = false) Integer limit,
+                             @RequestParam(required = false) String sortby,
+                             @RequestParam(required = false) String sortorder,
                              Model model) {
         if (limit != null && sortby != null && sortorder != null) {
             List<Person> sortedList = personList.stream().sorted((p1, p2) -> {
