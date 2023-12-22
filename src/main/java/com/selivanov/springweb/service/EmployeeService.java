@@ -1,6 +1,8 @@
 package com.selivanov.springweb.service;
 
+import com.selivanov.springweb.entity.DepartmentSalaryAggregate;
 import com.selivanov.springweb.entity.Employee;
+import com.selivanov.springweb.model.Aggregation;
 import com.selivanov.springweb.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,9 +42,7 @@ public class EmployeeService {
         employeeRepository.deleteEmployeeById(id);
     }
 
-//    public void sortEmployeeByDepartmentWithAvrSalary(@RequestParam(required = false) String sort) {
-//        if (sort.equalsIgnoreCase("max")){
-//            getAllEmployees().
-//        }
-//    }
+    public List<Employee> aggregateByDepartment(Aggregation aggregationType){
+        return employeeRepository.aggregateByDepartment(aggregationType);
+    }
 }

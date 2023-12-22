@@ -1,6 +1,8 @@
 package com.selivanov.springweb.repository;
 
+import com.selivanov.springweb.entity.DepartmentSalaryAggregate;
 import com.selivanov.springweb.entity.Employee;
+import com.selivanov.springweb.model.Aggregation;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Query;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Repository
@@ -105,15 +108,14 @@ public class EmployeeRepository {
             entityManager.getTransaction().begin();
 
             Employee updateEmployee = entityManager.find(Employee.class, id);
-            if (updateEmployee != null){
+            if (updateEmployee != null) {
                 updateEmployee.setName(employee.getName());
                 updateEmployee.setDepartment(employee.getDepartment());
                 updateEmployee.setSalary(employee.getSalary());
             }
 
-            entityManager.getTransaction().begin();
-
-        }catch (Exception e) {
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
             if (entityManager != null) {
                 entityManager.getTransaction().rollback();
             }
@@ -149,6 +151,47 @@ public class EmployeeRepository {
         }
     }
 
+    public List<Employee> aggregateByDepartment(Aggregation aggregationType) {
+        EntityManager entityManager = null;
+        try {
+            entityManager = entityManagerFactory.createEntityManager();
+            entityManager.getTransaction().begin();
 
+            List<Employee> salaryAggregates = switch (aggregationType) {
+                case AVG -> entityManager.createQuery("""
+                                select e.department, avg(e.salary) as avg_salary from Employee e
+                                group by e.department
+                                """, Employee.class)
+                        .getResultList();
+                case MIN -> entityManager.createQuery("""
+                                select e.department, min(e.salary) min_salary from Employee e
+                                group by e.department
+                                """, Employee.class)
+                        .getResultList();
+                case MAX -> entityManager.createQuery("""
+                                select e.department, max(e.salary) max_salary from Employee e
+                                group by e.department
+                                """, Employee.class)
+                        .getResultList();
+                case SUM -> entityManager.createQuery("""
+                                select e.department, sum(e.salary) sum_salary from Employee e
+                                group by e.department
+                                """, Employee.class)
+                        .getResultList();
+            };
+
+            entityManager.getTransaction().commit();
+            return salaryAggregates;
+        } catch (Exception e) {
+            if (entityManager != null) {
+                entityManager.getTransaction().rollback();
+            }
+            throw new RuntimeException(e);
+        } finally {
+            if (entityManager != null) {
+                entityManager.close();
+            }
+        }
+    }
 
 }
